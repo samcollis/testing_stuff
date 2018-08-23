@@ -1,7 +1,6 @@
-const _ = require('lodash');
+/* const _ = require('lodash');
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-const crypto = require('crypto');
-// const FindgameTrigger = require('./triggers/find_game')
+const crypto = require('crypto'); */
 
 
 // triggers on new stream online with a certain tag

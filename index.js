@@ -2,6 +2,7 @@ const authentication = require('./authentication');
 const NewstreamonlineTrigger = require('./triggers/new_stream_online');
 const FindgameTrigger = require('./triggers/find_game');
 const NewfollowerTrigger = require('./triggers/new_follower');
+const { getFollowerInfo } = require('./utils')
 
 
 const includeBearerToken = (request, z, bundle) => {
@@ -18,6 +19,10 @@ const App = {
   authentication: authentication,
   beforeRequest: [includeBearerToken],
   afterResponse: [],
+
+  hydrators: {
+    getFollowerInfo: getFollowerInfo
+  },
 
   resources: {
   },

@@ -1,6 +1,6 @@
-const _ = require('lodash');
+/* const _ = require('lodash');
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-const crypto = require('crypto');
+const crypto = require('crypto'); */
 
 const triggerFindgame = (z, bundle) => {
       return z.request({

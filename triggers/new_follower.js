@@ -1,15 +1,7 @@
-// triggers when user receives a new folloer
-const triggerNewfollower = (z, bundle) => {
+const { getFollowerInfo } = require('../utils')
 
-const getInfo = () => {
-  res = z.JSON.parse(request.content).data[0].from_id
-      return z.request({
-        url: 'https://api.twitch.tv/helix/users',
-        params: {
-          id: res
-        }
-    })
-      }.then(response => z.JSON.parse(response.content).data)
+
+const triggerNewfollower = (z, bundle) => {
 
 
   const responsePromise = z.request({
@@ -19,10 +11,21 @@ const getInfo = () => {
     },
   })
   return responsePromise
-    .then(z.dehydrate(getInfo))
-    
+    .then(res => z.JSON.parse(res.content))
+    .then(results => {
+      var followers = results.data
+      z.console.log(followers)
+        for (let result of followers) {
+            result.id = result.from_id;
+            result.info = z.dehydrate(getFollowerInfo, { from_id: result.from_id } )
 
-  };
+//            result.info = z.dehydrate(getFollowerInfo, { from_id: result.from_id } )
+          }
+          return followers
+        })       
+    };
+
+  
 
 
 module.exports = {

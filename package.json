@@ -4,7 +4,7 @@
   "description": "A video streaming app for the Zapier platform.",
   "repository": "https://github.com/zapier/zapier-platform-app-twitch",
   "homepage": "https://zapier.com/",
-  "author": "Bryan Helmig <bryan@zapier.com>",
+  "author": "Sam Collis <sam.collis@zapier.com>",
   "license": "BSD-3-Clause",
   "main": "index.js",
   "scripts": {

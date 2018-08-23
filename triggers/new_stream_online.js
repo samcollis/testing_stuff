@@ -1,50 +1,18 @@
-/* const _ = require('lodash');
-_.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-const crypto = require('crypto'); */
 
-
-// triggers on new stream online with a certain tag
 const triggerNewStreamOnline = (z, bundle) => {
     
-let streams = [];  // start with an empty array
+let streams = []; 
 let res = ''
 let cursor = ''
-
-    function streamerVsPopThreshold(streamer, popularity) {   // if streamer and a pop threshhold is selected want to respect that 
-      if(streamer && !popularity) {
-        bundle.inputData.popularity_threshold = 0
-      }
-      if(!streamer && popularity) {
-        bundle.inputData.popularity_threshold = bundle.inputData.popularity_threshold
-      }
-      if(!streamer && !popularity) {
-        bundle.inputDat.popularity_threshold = 500
-      }
-      else {
-        bundle.inputData.popularity_threshold = bundle.inputData.popularity_threshold
-      }
-    }
 
     function new_stream_online_poll(res) {
       streams = streams.concat(res.data)
       var last = res.data[res.data.length -1]
       
-      if(!bundle.inputData.popularity_threshold) {
-        bundle.inputData.popularity_threshold = 500
+      if(!bundle.inputData.min_viewers) {
+        bundle.inputData.min_viewers = 500
       }
-
-      streamerVsPopThreshold(bundle.inputData.streamer, bundle.inputData.popularity_threshold)
-
-
-      if(!bundle.inputData.streamer && last.viewer_count > bundle.inputData.popularity_threshold) { 
-        // if a streamer is selected, we'll never need to paginate since we'd only expect 1 result to return
-        cursor = res.pagination.cursor
-        return makeRequest(cursor); 
-      } 
-      else {
-        // need to filter the results so that I only ever return streams above the popularity threshold
-        return streams.filter(stream => stream.viewer_count > bundle.inputData.popularity_threshold);
-      }
+        return streams.filter(stream => stream.viewer_count > bundle.inputData.min_viewers);
     };
 
 
@@ -60,10 +28,6 @@ let cursor = ''
     if(bundle.inputData.game) {
       params.game_id = bundle.inputData.game
     };
-    if(bundle.inputData.streamer) {
-      params.user_login = bundle.inputData.streamer
-    };
-
     return z.request({
     url: 'https://api.twitch.tv/helix/streams',
     params: params
@@ -75,9 +39,7 @@ let cursor = ''
   
   }
 
-
-   return makeRequest()
-    
+   return makeRequest()   
 
 };
 
@@ -87,7 +49,7 @@ module.exports = {
 
   display: {
     label: 'New Stream Online',
-    description: 'Triggers on a new stream online.',
+    description: 'Triggers when a new stream comes online.',
     hidden: false,
     important: true
   },
@@ -100,12 +62,6 @@ module.exports = {
         helpText: 'Select a Game from the top 20 most popular',
         required: false,
         dynamic: 'find_game.id.name'
-      },
-      {
-        key: 'streamer',
-        label: 'Streamer',
-        required: false,
-        type: 'string'
       },
       {
         key: 'language',
@@ -131,19 +87,30 @@ module.exports = {
         }
       },
       {
-        key: 'popularity_threshold',
-        label: 'Popularity Threshold',
-        helpText: 'Select the minimum amount of viewers for a stream if nothing is slected 500 will be the default',
+        key: 'min_viewers',
+        label: 'Viewer Threshold',
+        helpText: 'Select the minimum amount of viewers on a stream to trigger your Zap, if nothing is slected 500 will be the default',
         type: 'integer',
         required: false,
       }
-
       
     ],
 
     sample: {
-      id: 1,
-      name: 'Test'
+      "id": "26007351216",
+      "user_id": "7236692",
+      "game_id": "29307",
+      "community_ids": [
+        "848d95be-90b3-44a5-b143-6e373754c382",
+        "fd0eab99-832a-4d7e-8cc0-04d73deb2e54",
+        "ff1e77af-551d-4993-945c-f8ceaa2a2829"
+      ],
+      "type": "live",
+      "title": "[Punday Monday] Necromancer - Dan's First Character - Maps - !build",
+      "viewer_count": 5723,
+      "started_at": "2017-08-14T15:45:17Z",
+      "language": "en",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_dansgaming-{width}x{height}.jpg"
     },
 
     outputFields: [

@@ -7,7 +7,7 @@ const getFollowerInfo = (z, bundle) => {
           id: bundle.inputData.from_id
         }  
         })
-          .then(response => z.JSON.parse(response.content).data)
+          .then(response => z.JSON.parse(response.content).data[0])
       };
 
 module.exports = {

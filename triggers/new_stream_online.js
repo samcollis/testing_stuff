@@ -1,18 +1,38 @@
 
 const triggerNewStreamOnline = (z, bundle) => {
-    
+
+let streamDedupe = {}    
 let streams = []; 
 let res = ''
 let cursor = ''
 
+// due to pagination we need to manually create an object using the ids as they keys to manually dedupe
+// in the case an object spans more than 1 page due to rapidly changing viewership
+    const makeObject = (streams) => {        
+      for(var i=0; i < streams.length; i++) {
+        streamDedupe[streams[i].id] = streams[i] // making that object
+      }
+      return streamDedupe
+    }
+
+
+
     function new_stream_online_poll(res) {
-      streams = streams.concat(res.data)
+      
+        streams = makeObject(res.data)  
+  //    streams = streams.concat(res.data)
       var last = res.data[res.data.length -1]
       
       if(!bundle.inputData.min_viewers) {
         bundle.inputData.min_viewers = 500
       }
-        return streams.filter(stream => stream.viewer_count > bundle.inputData.min_viewers);
+      if(last.viewer_count > bundle.inputData.min_viewers) { 
+        cursor = res.pagination.cursor
+        return makeRequest(cursor); 
+      } 
+      else {
+          return Object.keys(streamDedupe).map(key => streamDedupe[key])
+      }
     };
 
 

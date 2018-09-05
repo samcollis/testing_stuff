@@ -10,6 +10,8 @@ const getFollowerInfo = (z, bundle) => {
           .then(response => z.JSON.parse(response.content).data[0])
       };
 
+
 module.exports = {
 	getFollowerInfo
 };
+

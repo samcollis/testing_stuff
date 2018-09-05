@@ -18,8 +18,6 @@ const triggerNewfollower = (z, bundle) => {
         for (let result of followers) {
             result.id = result.from_id;
             result.info = z.dehydrate(getFollowerInfo, { from_id: result.from_id } )
-  //          const userInfo = z.dehydrate(getFollowerInfo, { from_id: result.from_id} )
-  //          result = Object.assign(result, userInfo)
           }
           return followers
         })       

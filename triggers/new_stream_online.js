@@ -11,6 +11,7 @@ let cursor = ''
     const makeObject = (streams) => {        
       for(var i=0; i < streams.length; i++) {
         streamDedupe[streams[i].id] = streams[i] // making that object
+        streamDedupe[streams[i].id].thumbnail_url = streamDedupe[streams[i].id].thumbnail_url.replace("{width}x{height}", "1000x600")
       }
       return streamDedupe
     }
@@ -38,11 +39,14 @@ let cursor = ''
 
   const makeRequest = (cursor) =>  {
     const params = {
-      language: bundle.inputData.language
+      first: 100
     };
 
     if(cursor) {
       params.after = cursor
+    };
+    if(bundle.inputData.language) {
+      params.language = bundle.inputData.language
     };
 
     if(bundle.inputData.game) {

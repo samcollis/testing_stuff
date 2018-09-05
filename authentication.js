@@ -99,7 +99,7 @@ module.exports = {
   oauth2Config: {
     authorizeUrl: {
       method: 'GET',
-      url: `${process.env.BASE_URL}/oauth2/authorize`,
+      url: `https://www.humanity.com/`,
       params: {
         client_id: '{{process.env.CLIENT_ID}}',
         state: '{{bundle.inputData.state}}',

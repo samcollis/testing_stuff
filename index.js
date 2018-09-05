@@ -1,3 +1,4 @@
+const NewfollowingTrigger = require('./triggers/new_following');
 const NewstreameronlineTrigger = require('./triggers/new_streamer_online');
 const authentication = require('./authentication');
 const NewstreamonlineTrigger = require('./triggers/new_stream_online');
@@ -29,6 +30,7 @@ const App = {
   },
 
   triggers: {
+    [NewfollowingTrigger.key]: NewfollowingTrigger,
     [NewstreameronlineTrigger.key]: NewstreameronlineTrigger,
     [NewfollowerTrigger.key]: NewfollowerTrigger,
     [FindgameTrigger.key]: FindgameTrigger,

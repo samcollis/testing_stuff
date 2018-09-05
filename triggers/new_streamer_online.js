@@ -1,14 +1,46 @@
+const params = {};
+
+// let's make some better thumbnails
+const fixThumbnail = (responseArray) => {
+  for(i = 0; i < responseArray.length; i++) {
+    responseArray[i].thumbnail_url = responseArray[i].thumbnail_url.replace("{width}x{height}", "1000x600")
+  }
+  return responseArray
+}
+
+// let's allow users to select multiple streamers seperate by a comma.
+const seperateUsernames = (usernames) => {
+    // username1,username2,username3,username4
+    var streamersQuerystring = usernames.split(',')
+    
+    return 'user_login=' + streamersQuerystring.join('&user_login=')
+}
+
+
 // triggers on new streamer online with a certain tag
 const triggerNewstreameronline = (z, bundle) => {
+    var streamer = bundle.inputData.streamer
+      if(streamer) {
+        if(streamer.indexOf(',')) {//if there's a comma we want to seperate them
+            var multiUsers = seperateUsernames(streamer);
+            url = `https://api.twitch.tv/helix/streams?&${multiUsers}`
+        }
+        params.user_login = bundle.inputData.streamer
+  };
+  if(bundle.inputData.streamerFollowed) {
+    params.user_id = bundle.inputData.streamerFollowed
+  };
   const responsePromise = z.request({
-    url: 'https://api.twitch.tv/helix/streams',
-    params: {
-      user_login: bundle.inputData.streamer
-    }
+    url: url,                      // we can't send params as an object so we'll ad em as a querystring directly,
+    params:params
+    
   });
   return responsePromise
-    .then(response => z.JSON.parse(response.content).data);
-};
+    .then(response => {
+      res = z.JSON.parse(response.content).data
+      return fixThumbnail(res);
+      })
+  };
 
 module.exports = {
   key: 'new_streamer_online',
@@ -25,11 +57,18 @@ module.exports = {
     {
         key: 'streamer',
         label: 'Streamer Name',
-        helpText: "You'll want to use the streamer's Twitch name in this field. For example, If your streamer's URL is `https://www.twitch.tv/magic`, use magic",
+        helpText: "Select multiple by seperating by a comma.  You'll want to use the streamer's Twitch name in this field. For example, If your streamer's URL is `https://www.twitch.tv/magic`, use magic",
         required: false,
         type: 'string'
       },
-      
+      {
+        key: 'streamerFollowed',
+        label: 'Streamer you Follow',
+        helpText: 'Select from a list of streamers that you follow (note this will only work for up to 100)',
+        required: false,
+        dynamic: 'new_following.id.display_name',
+        list: true
+      }     
     ],
     perform: triggerNewstreameronline,
 

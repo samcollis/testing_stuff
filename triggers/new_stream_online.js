@@ -21,7 +21,6 @@ let cursor = ''
     function new_stream_online_poll(res) {
       
         streams = makeObject(res.data)  
-  //    streams = streams.concat(res.data)
       var last = res.data[res.data.length -1]
       
       if(!bundle.inputData.min_viewers) {
@@ -32,14 +31,15 @@ let cursor = ''
         return makeRequest(cursor); 
       } 
       else {
-          return Object.keys(streamDedupe).map(key => streamDedupe[key])
+          var finalArray = Object.keys(streamDedupe).map(key => streamDedupe[key])
+          return finalArray.filter(stream => stream.viewer_count > bundle.inputData.min_viewers)
       }
     };
 
 
   const makeRequest = (cursor) =>  {
     const params = {
-      first: 100
+      first: 100      // we can grab the first 100 streams
     };
 
     if(cursor) {

@@ -43,7 +43,7 @@ const triggerNewstreameronline = (z, bundle) => {
       res = z.JSON.parse(response.content).data
       return fixThumbnail(res);
       })
-    .then(results => {  // going to try and grab the user login for the streamer
+    .then(results => {  //  and grab the user login for the streamer using the /users dehydrator
       var users = results
         for (let result of users) {
             result.id = result.user_id;

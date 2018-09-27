@@ -81,9 +81,7 @@ const testAuth = (z) => {
   const promise = z.request({
     method: 'GET',
     url: `https://api.twitch.tv/helix/users`,
-  });
-  // this is to grab the display_name from within the data array
-  
+  });  
   return promise.then((response) => {
     if (response.status === 401) {
       throw new Error('The access token you supplied is not valid');
@@ -99,7 +97,7 @@ module.exports = {
   oauth2Config: {
     authorizeUrl: {
       method: 'GET',
-      url: `https://www.humanity.com/`,
+      url: `${process.env.BASE_URL}/oauth2/authorize`,
       params: {
         client_id: '{{process.env.CLIENT_ID}}',
         state: '{{bundle.inputData.state}}',

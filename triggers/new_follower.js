@@ -1,8 +1,6 @@
 const { getFollowerInfo } = require('../utils')
 
-
 const triggerNewfollower = (z, bundle) => {
-
 
   const responsePromise = z.request({
     url: `https://api.twitch.tv/helix/users/follows`,
@@ -21,10 +19,7 @@ const triggerNewfollower = (z, bundle) => {
           }
           return followers
         })       
-    };
-
-  
-
+};
 
 module.exports = {
   key: 'new_follower',

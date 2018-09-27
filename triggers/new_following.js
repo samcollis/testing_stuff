@@ -1,12 +1,14 @@
-var idStringArray = [];  //creating an array of ids to then join up together
+//creating an array of ids to then join up together the to_ids
+var idStringArray = [];
 
+// extract the to_id from each object returned
+//  push all the to_ids into an array, append with id= an join em with an &
 const createQuerystring = (arrayOfIds) => {
   for(var i=0; i < arrayOfIds.length; i++) {
     idStringArray.push('id=' + arrayOfIds[i].to_id)
   }
   return idStringArray.join('&')
 }
-
 
 const getFollows = async (z, bundle) => {
   const response = await z.request({
@@ -24,9 +26,6 @@ const getFollowsInfo = async (z, bundle) => {
   const response = await z.request({
     method: 'GET',
     url: `https://api.twitch.tv/helix/users?${bundle.inputData.users}`,
- //   params: {
- //     id: bundle.inputData.users
- //   }
   });
   const parsed = z.JSON.parse(response.content).data;
   return parsed;
@@ -37,9 +36,6 @@ const triggerNewfollowing = async (z, bundle) => {
     const follows = await getFollows(z, bundle);
     var userFollows = createQuerystring(follows)
     bundle.inputData.users = userFollows
-   // I need to extract the to_id from each object returned
-   // I can pop all the to_ids into an array, append em with id= an join em with an &
-   // should do the trick here but could be awkward
     const users = await getFollowsInfo(z, bundle);
     return users;
 }

@@ -1,7 +1,3 @@
-/* const _ = require('lodash');
-_.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-const crypto = require('crypto'); */
-
 const triggerFindgame = (z, bundle) => {
       return z.request({
       url: 'https://api.twitch.tv/helix/games/top'
@@ -9,7 +5,6 @@ const triggerFindgame = (z, bundle) => {
       .then(response => z.JSON.parse(response.content).data);
 
     };
-
 
 module.exports = {
   key: 'find_game',

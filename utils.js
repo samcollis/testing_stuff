@@ -1,5 +1,3 @@
-
-
 const getFollowerInfo = (z, bundle) => {
       return z.request({
         url: 'https://api.twitch.tv/helix/users',

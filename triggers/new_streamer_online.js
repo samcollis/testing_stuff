@@ -2,7 +2,7 @@ const { getFollowerInfo } = require('../utils')
 
 const params = {};
 
-// let's make some better thumbnails
+// make some usable thumbnails
 const fixThumbnail = (responseArray) => {
   for(i = 0; i < responseArray.length; i++) {
     responseArray[i].thumbnail_url = responseArray[i].thumbnail_url.replace("{width}x{height}", "1000x600")
@@ -10,7 +10,7 @@ const fixThumbnail = (responseArray) => {
   return responseArray
 }
 
-// let's allow users to select multiple streamers seperate by a comma.
+// allow users to select multiple streamers seperate by a comma.
 const seperateUsernames = (usernames) => {
     // username1,username2,username3,username4
     var streamersQuerystring = usernames.split(',')
@@ -23,7 +23,7 @@ const seperateUsernames = (usernames) => {
 const triggerNewstreameronline = (z, bundle) => {
     var streamer = bundle.inputData.streamer
       if(streamer) {
-        if(streamer.indexOf(',')) {//if there's a comma we want to seperate them
+        if(streamer.indexOf(',')) { //if there's a comma seperate them
             var multiUsers = seperateUsernames(streamer);
             params.user_login = multiUsers
         } else {
@@ -34,7 +34,7 @@ const triggerNewstreameronline = (z, bundle) => {
     params.user_id = bundle.inputData.streamerFollowed
   };
   const responsePromise = z.request({
-    url: `https://api.twitch.tv/helix/streams`,                      // we can't send params as an object so we'll ad em as a querystring directly,
+    url: `https://api.twitch.tv/helix/streams`,
     params:params
     
   });
@@ -43,7 +43,7 @@ const triggerNewstreameronline = (z, bundle) => {
       res = z.JSON.parse(response.content).data
       return fixThumbnail(res);
       })
-    .then(results => {  //  and grab the user login for the streamer using the /users dehydrator
+    .then(results => { 
       var users = results
         for (let result of users) {
             result.id = result.user_id;

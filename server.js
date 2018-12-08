@@ -5,7 +5,8 @@ var db = require('./config/db')
 
 const app = express()
 
-const port = 8000;
+//	const port = 9000
+	 const port = process.env.PORT;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

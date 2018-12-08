@@ -13,6 +13,10 @@ module.exports = function(app, db) {
       			} 
     	});
 	});
+  /*
+
+
+  */
   
  	app.post('/notes', (req, res) => {
     	const note = { text: req.body.body, title: req.body.title };
@@ -26,7 +30,7 @@ module.exports = function(app, db) {
  	 });
 
  	app.get('/notes', (req, res) => {
- 		db.collection('notes').find({}).toArray(function(err, docs) {
+ 		db.collection('notes').find({text: "placeholder_text"}).toArray(function(err, docs) {
  			if (err) {
  				console.log('error: ' + err)
  			} else {

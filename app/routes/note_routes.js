@@ -4,7 +4,7 @@ const col = db.collection('notes')
 module.exports = function(app, db) {
 
   app.get('', (req, res) => {
-    res.send({"response": "Hello"})
+    res.send('{"response": "Hello"}')
   })
 
  	app.get('/notes/:title', (req, res) => {

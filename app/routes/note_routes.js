@@ -1,5 +1,5 @@
 var ObjectID = require('mongodb').ObjectID;
-const col = db.collection('notes')
+
 
 module.exports = function(app, db) {
 
@@ -49,11 +49,12 @@ module.exports = function(app, db) {
 
     app.put('/notes/:id', (req, res) => {
       const note = { id: req.body.id, title: req.body.title };
-      col.updateOne({id: note.id}, {$set: {title: note.title}})
+      db.collection('notes').updateOne({id: note.id}, {$set: {title: note.title}}, (err, item) => {
           if (err) { 
             res.send({ 'error': 'An error has occurred' }); 
           } else {
             res.send(result.ops[0]);
           }
       });
+  });
 };

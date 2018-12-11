@@ -42,7 +42,7 @@ module.exports = function(app, db) {
  	})
 
 
-    app.put('/notes:title', (req, res) => {
+    app.put('/notes/:title', (req, res) => {
       const note = { text: req.body.body, title: req.body.title };
       const noteToUpdate = db.collection('notes').find({ title: note.title })
       notetoUpdate.insert(note, (err, result) => {

@@ -2,6 +2,10 @@ var ObjectID = require('mongodb').ObjectID;
 
 module.exports = function(app, db) {
 
+  app.get( ,(req, res) => {
+    res.send('Hello')
+  })
+
  	app.get('/notes/:title', (req, res) => {
     	const title = req.params.title;
     	const details = { 'title': new ObjectID(id) };

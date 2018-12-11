@@ -8,9 +8,9 @@ module.exports = function(app, db) {
   })
 
  	app.get('/notes/:title', (req, res) => {
-    	const title = req.params.title;
+    	const title = req.body.title;
     	const details = { 'title': new ObjectID(id) };
-    	db.collection('notes').findOne(req.params.title, (err, item) => {
+    	db.collection('notes').findOne(req.body.title, (err, item) => {
       		if (err) {
         		res.send({'error':'An error has occurred'});
       		} else {

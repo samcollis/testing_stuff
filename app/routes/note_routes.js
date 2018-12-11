@@ -2,8 +2,8 @@ var ObjectID = require('mongodb').ObjectID;
 
 module.exports = function(app, db) {
 
-  app.get( ,(req, res) => {
-    res.send('Hello')
+  app.get('', (req, res) => {
+    res.send('{ "response": "Hello"}')
   })
 
  	app.get('/notes/:title', (req, res) => {

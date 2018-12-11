@@ -3,14 +3,14 @@ var ObjectID = require('mongodb').ObjectID;
 
 module.exports = function(app, db) {
 
-  app.get('', (req, res) => {
-    res.send('{"response": "Hello"}')
+  app.get('/', (req, res) => {
+    res.send('hello world')
   })
 
  	app.get('/notes/:title', (req, res) => {
     	const title = req.params.title;
     	const details = { 'title': new ObjectID(id) };
-    	db.collection('notes').findOne(details, (err, item) => {
+    	db.collection('notes').findOne(req.params.title, (err, item) => {
       		if (err) {
         		res.send({'error':'An error has occurred'});
       		} else {
